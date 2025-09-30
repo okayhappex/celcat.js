@@ -1,0 +1,37 @@
+{
+  "name": "celcat",
+  "version": "1.0.0",
+  "description": "Wrapper pour CELCAT",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "CELCAT",
+    "API-wrapper"
+  ],
+  "author": "happex",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/okayhappex/celcat.js/issues"
+  },
+  "homepage": "https://github.com/okayhappex/celcat.js#readme",
+  "dependencies": {
+    "ical": "^0.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "typescript": "^5.9.2"
+  }
+}
