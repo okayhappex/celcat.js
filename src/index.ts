@@ -23,7 +23,6 @@ async function fetch_ical(id: string, forceReload: boolean = false): Promise<[nu
     const data = cache.get(id);
 
     if (data && !forceReload) {
-        console.log('Using cached data')
         return [200, data]
     }
 
