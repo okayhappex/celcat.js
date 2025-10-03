@@ -1,6 +1,11 @@
-const ical = require('ical');
+import ical from 'ical';
 
 import type { Course } from './types/events.js';
+
+/********************************/
+
+import NodeCache from 'node-cache';
+const cache = new NodeCache({ stdTTL: 60 });
 
 /********************************/
 
@@ -14,11 +19,19 @@ function getDayInt(date: Date): number {
     return parseInt(`${y}${m}${d}`);
 }
 
-async function fetch_ical(id: string): Promise<[number, any]> {
+async function fetch_ical(id: string, forceReload: boolean = false): Promise<[number, any]> {
+    const data = cache.get(id);
+
+    if (data && !forceReload) {
+        return [200, data]
+    }
+
     const res = await fetch(`https://celcat.rambouillet.iut-velizy.uvsq.fr/cal/ical/${id}/schedule.ics`);
 
     if (res.status == 200) {
         const data = await res.text();
+        cache.set(id, data);
+
         return [200, data];
     } else {
         return [res.status, await res.text()];
