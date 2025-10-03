@@ -23,6 +23,7 @@ async function fetch_ical(id: string, forceReload: boolean = false): Promise<[nu
     const data = cache.get(id);
 
     if (data && !forceReload) {
+        console.log('Using cached data')
         return [200, data]
     }
 
@@ -38,23 +39,25 @@ async function fetch_ical(id: string, forceReload: boolean = false): Promise<[nu
     }
 }
 
-function parseFromData(data: string): any[] {
-    const cal: Course[] = ical.parseICS(data);
+function parseFromData(data: string): Course[] {
+    const cal = ical.parseICS(data);
 
-    const evs: Course[] = Object.values(cal).map(ev => ({
-        uid: ev.uid,
-        summary: ev.summary,
-        start: ev.start,
-        end: ev.end,
-        location: ev.location,
-        description: ev.description
-    }));
+    const evs: Course[] = Object.values(cal)
+        .filter(ev => ev.type === 'VEVENT')
+        .map(ev => ({
+            uid: ev.uid!,
+            summary: ev.summary!,
+            start: ev.start!,
+            end: ev.end!,
+            location: ev.location!,
+            description: ev.description!
+        }));
 
     evs.sort((a: Course, b: Course) => getDayInt(a.start) - getDayInt(b.start));
 
-    for (let i = 0; i < evs.length; i++) {
-        evs[i].start.setSeconds(0, 0);
-        evs[i].end.setSeconds(0, 0);
+    for (const event of evs) {
+        event.start.setSeconds(0, 0);
+        event.end.setSeconds(0, 0);
     }
 
     return evs;
