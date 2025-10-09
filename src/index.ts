@@ -30,7 +30,7 @@ async function fetch_ical(id: string, forceReload: boolean = false): Promise<[nu
 
     if (res.status == 200) {
         const data = await res.text();
-        cache.set(id, data);
+        cache.set(id, data, 86400);
 
         return [200, data];
     } else {
