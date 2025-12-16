@@ -1,19 +1,18 @@
 {
   "name": "celcat",
-  "version": "1.1.2",
+  "version": "2.5.1",
   "description": "Wrapper pour CELCAT",
-  "main": "dist/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "type": "module",
-  "types": "dist/types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/types/index.d.ts"
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js"
     }
   },
   "files": [
-    "dist"
+    "lib"
   ],
   "scripts": {
     "build": "tsc"
@@ -29,8 +28,7 @@
   },
   "homepage": "https://github.com/okayhappex/celcat.js#readme",
   "dependencies": {
-    "ical": "^0.8.0",
-    "node-cache": "^5.1.2"
+    "ical": "^0.8.0"
   },
   "devDependencies": {
     "@types/ical": "^0.8.3",

@@ -1,11 +1,10 @@
-import { get_timetable } from '../dist/index.js';
+import { Timetable } from '../lib/index.js';
 
-let group_id = ""; // ID du groupe
-let start_date = new Date("2025-09-29T07:00:00.000Z"); // date de début de la période
+const tt = new Timetable()
+
+let group_id = "G1-TS2PGRAD6003"; // ID du groupe
+let start_date = new Date("2025-12-14"); // date de début de la période
 let end_date = null; // date de fin de la période (prend un jour par défaut)
 
-get_timetable(group_id, start_date, end_date).then((course) => {
-    console.log(course);
-}).catch((err) => {
-    console.error(err);
-});
+let a = await tt.getTimetable(group_id, start_date)
+console.log(a)
