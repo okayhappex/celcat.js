@@ -27,6 +27,12 @@ export const formatTitle = (title: string): { type: string, summary: string, mod
     let module = subj.split(' - ')[0]!;
     let summary = subj.split(' - ')[1]!;
 
+    if (module.includes('tutore')) {
+        type = "Projet Tutoré";
+        summary = "Projet Tutoré";
+        module = "inconnu"
+    }
+
     return { type: type, summary: summary, module: module };
 }
 

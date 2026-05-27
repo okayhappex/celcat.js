@@ -1,6 +1,6 @@
 {
   "name": "celcat",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "Wrapper pour CELCAT",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
