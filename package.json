@@ -1,39 +1,44 @@
 {
-  "name": "celcat",
-  "version": "2.6.0",
-  "description": "Wrapper pour CELCAT",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
-  "type": "module",
-  "exports": {
-    ".": {
-      "types": "./lib/index.d.ts",
-      "import": "./lib/index.js"
-    }
-  },
-  "files": [
-    "lib"
-  ],
-  "scripts": {
-    "build": "tsc"
-  },
-  "keywords": [
-    "CELCAT",
-    "API-wrapper"
-  ],
-  "author": "happex",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/okayhappex/celcat.js/issues"
-  },
-  "homepage": "https://github.com/okayhappex/celcat.js#readme",
-  "dependencies": {
-    "ical": "^0.8.0"
-  },
-  "devDependencies": {
-    "@types/ical": "^0.8.3",
-    "@types/node": "^24.5.2",
-    "@types/node-cache": "^4.1.3",
-    "typescript": "^5.9.2"
-  }
+	"name": "raw-place",
+	"version": "3.0.0",
+	"description": "Client TypeScript pour les services de l'IUT de Vélizy",
+	"type": "module",
+	"main": "./lib/index.js",
+	"types": "./lib/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./lib/index.d.ts",
+			"import": "./lib/index.js"
+		}
+	},
+	"files": [
+		"lib"
+	],
+	"scripts": {
+		"build": "tsc"
+	},
+	"keywords": [
+		"IUT",
+		"Vélizy",
+		"CELCAT",
+		"CAS",
+		"bulletins",
+		"API",
+		"wrapper",
+		"TypeScript"
+	],
+	"author": "Association des Étudiants de Vélizy <ae2v.asso@gmail.com>",
+	"license": "GPL-3.0",
+	"bugs": {
+		"url": "https://github.com/mmi-place/metal-place/issues"
+	},
+	"homepage": "https://github.com/mmi-place/metal-place#readme",
+	"dependencies": {
+		"ical": "^0.8.0"
+	},
+	"devDependencies": {
+		"@types/ical": "^0.8.3",
+		"@types/node": "^24.5.2",
+		"typescript": "^5.9.2"
+	}
 }
