@@ -31,4 +31,10 @@ export const GROUPS = {
 	},
 } as const;
 
-export type GroupId = string;
+type DeepValue<T> = T extends string
+	? T
+	: T extends Record<string, infer V>
+		? DeepValue<V>
+		: never;
+
+export type GroupId = DeepValue<typeof GROUPS>;
