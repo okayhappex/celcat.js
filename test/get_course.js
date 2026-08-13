@@ -1,12 +1,11 @@
-import { Timetable } from '../lib/index.js';
+import { Client } from '../lib/index.js';
 
-const tt = new Timetable()
+const client = new Client();
 
-let group_id = ""; // ID du groupe
+let group_id = "f5c52197-6d54-46ab-a803-079ed115f811"; // ID du groupe
 let course_id = null; // uid du cours (optionnel si course_date est défini)
-let course_date = new Date(); // date et heure de début du cours (optionnel si course_id est défini)
 
-tt.getCourse(group_id, course_id, course_date).then((course) => {
+client.celcat.getCourse(group_id, course_id).then((course) => {
     console.log(course);
 }).catch((err) => {
     console.error(err);
