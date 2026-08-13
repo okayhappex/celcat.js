@@ -104,8 +104,8 @@ export class CelcatClient {
 					uid: event.uid,
 					summary: event.summary ?? "",
 					start: startDate?.toISOString() ?? "",
-					end: endDate?.toISOString() ?? "",
-					location: event.location ?? "",
+					end: endDate?.toISOString() ?? startDate?.toISOString() ?? "",
+					location: event.location ?? ""
 					description: event.description ?? "",
 				};
 			})
