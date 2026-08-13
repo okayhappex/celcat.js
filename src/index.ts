@@ -1,82 +1,32 @@
-import ical from 'ical';
-import { Cache } from './cache.js';
-import * as utils from './utils.js';
-import type { RawCourse, Course } from './events.js';
+import { CelcatClient } from "./clients/celcat.js";
+import { CelcatService } from "./services/celcat.js";
 
-// Export types for consumers
-export type { Course, RawCourse } from './events.js';
+import type { CelcatClientOptions } from "./types/celcat.js";
 
-export class Timetable {
-    private cache: Cache;
-    private url;
+export { GROUPS } from "./constants/groups.js";
 
-    constructor(url?: string, ttlSeconds = 86400) {
-        this.cache = new Cache(ttlSeconds);
-        this.url = url || 'https://celcat-back.mmi.codes'
-    }
+export type {
+	CalendarEvent,
+	CelcatClientOptions,
+	CelcatPostEvent,
+	Course,
+	CourseHours,
+	Week,
+	WeekDay,
+} from "./types/celcat.js";
 
-    private async fetchIcal(id: string, start: Date = new Date, end: Date | undefined = undefined, forceReload: boolean = false): Promise<[number, any]> {
-        if (!start) start = new Date();
-        if (!end) {
-            end = new Date(start.getTime() + 6 * 24 * 60 * 60 * 1000); // 7 jours
-        }
+export type { GroupId } from "./constants/groups.js";
 
-        const cached = this.cache.getItem(`${id}_${start.toISOString()}_${end.toISOString()}`);
+export interface ClientOptions {
+	celcat?: CelcatClientOptions;
+}
 
-        if (cached && !forceReload) {
-            return [200, cached];
-        }
+export class Client {
+	public readonly celcat: CelcatService;
 
-        const res = await fetch(`${this.url}/edt/${id}?start=${start.toISOString().split('T')[0]}&end=${end.toISOString().split('T')[0]}`);
+	constructor(options: ClientOptions = {}) {
+		const celcat = new CelcatClient(options.celcat);
 
-        if (res.status === 200) {
-            const data: RawCourse[] = await res.json() as RawCourse[];
-            const courses: Course[] = []
-
-            data.forEach(course => {
-                courses.push({
-                    uid: course.uid,
-                    type: utils.formatTitle(course.summary).type,
-                    summary: utils.formatTitle(course.summary).summary,
-                    start: new Date(course.start),
-                    end: new Date(course.end),
-                    teachers: utils.formatDescription(course.description).teachers,
-                    location: course.location,
-                    module: utils.formatTitle(course.summary).module
-                })
-            });
-
-            this.cache.setItem(`${id}_${start.toISOString()}_${end.toISOString()}`, courses);
-
-            return [200, courses];
-        } else {
-            return [res.status, await res.text()];
-        }
-    }
-
-    async getTimetable(group: string, start: Date, end?: Date): Promise<Course[]> {
-        if (!group) throw new Error('Missing group id');
-        if (!start) throw new Error('Missing start date');
-
-        const [status, data] = await this.fetchIcal(group, start, end);
-        if (status !== 200) throw new Error(`Error fetching iCal data: ${data}`);
-
-        return data
-    }
-
-    async getCourse(group: string, id?: string, start?: Date): Promise<Course | null> {
-        if (!group) throw new Error('Missing group id');
-        if (!id && !start)
-            throw new Error('You must provide either an event id or a start date');
-
-        const events = await this.getTimetable(group, start ?? new Date());
-
-        return (
-            events.find(
-                (ev) =>
-                    (id && ev.uid === id) ||
-                    (start && ev.start.getTime() === start.getTime())
-            ) || null
-        );
-    }
+		this.celcat = new CelcatService(celcat);
+	}
 }
