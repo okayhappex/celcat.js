@@ -5,13 +5,14 @@ import type {
 	CourseHours,
 	Week,
 } from "../types/celcat.js";
+import type { GroupId } from "../constants/groups.js";
 import { formatDescription, formatTitle } from "../utils/timetable.js";
 
 export class CelcatService {
 	constructor(private readonly client: CelcatClient) {}
 
 	async getCourses(
-		groupId: string,
+		groupId: GroupId,
 		start: Date,
 		end: Date,
 		forceReload = false,
@@ -35,7 +36,7 @@ export class CelcatService {
 	}
 
 	async getCourse(
-		groupId: string,
+		groupId: GroupId,
 		options: {
 			id?: string;
 			start?: Date;
@@ -56,7 +57,10 @@ export class CelcatService {
 		const courses = await this.getCourses(
 			groupId,
 			options.start ?? new Date(),
-			options.end ?? new Date(options.start ?? new Date().getTime() + 24 * 60 * 60 * 1000),
+			options.end ??
+				new Date(
+					options.start ?? new Date().getTime() + 24 * 60 * 60 * 1000,
+				),
 			options.forceReload ?? false,
 		);
 
@@ -71,7 +75,7 @@ export class CelcatService {
 	}
 
 	async getWeek(
-		groupId: string,
+		groupId: GroupId,
 		date: Date = new Date(),
 		forceReload = false,
 	): Promise<Week> {
@@ -108,7 +112,7 @@ export class CelcatService {
 	}
 
 	async getWeekHours(
-		groupId: string,
+		groupId: GroupId,
 		date: Date = new Date(),
 		forceReload = false,
 	): Promise<CourseHours> {

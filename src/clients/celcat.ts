@@ -7,6 +7,8 @@ import type {
 	CelcatClientOptions,
 } from "../types/celcat.js";
 
+import type { GroupId } from "../constants/groups.js";
+
 export class CelcatClient {
 	private readonly cache: Cache;
 	private readonly baseUrl: string;
@@ -23,7 +25,7 @@ export class CelcatClient {
 	}
 
 	async getEvents(
-		groupId: string,
+		groupId: GroupId,
 		start: Date,
 		end: Date,
 		forceReload = false,
@@ -50,7 +52,7 @@ export class CelcatClient {
 	}
 
 	private async fetchIcal(
-		groupId: string,
+		groupId: GroupId,
 		start: Date,
 		end: Date,
 		forceReload: boolean,
@@ -105,7 +107,7 @@ export class CelcatClient {
 					summary: event.summary ?? "",
 					start: startDate?.toISOString() ?? "",
 					end: endDate?.toISOString() ?? startDate?.toISOString() ?? "",
-					location: event.location ?? ""
+					location: event.location ?? "",
 					description: event.description ?? "",
 				};
 			})
